@@ -33,7 +33,8 @@ as the default, with Java 8 as the default language level.
 
 ## Create a new project
 
-Following the directions from IntelliJ, I created a new Gradle project
+Following the directions from IntelliJ, I created a 
+[new Gradle project](https://www.jetbrains.org/intellij/sdk/docs/tutorials/build_system.html)
 with "Java" and "IntelliJ Platform Plugin" as the selected Libraries/Frameworks.
 The project is called "number-line-inspector", and it's in the newly created
 git repository.
@@ -127,4 +128,8 @@ with the "Reload Gradle Project" highlighted](images/reload-gradle.png)
  
 ## Upcoming links
 
+https://www.jetbrains.org/intellij/sdk/docs/tutorials/code_inspections.html
 https://www.jetbrains.org/intellij/sdk/docs/basics/psi_cookbook.html
+https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/running_and_debugging_a_plugin.html
+https://www.jetbrains.org/intellij/sdk/docs/basics/ide_development_instance.html
+https://github.com/JetBrains/intellij-sdk-docs/tree/master/code_samples/comparing_references_inspection
