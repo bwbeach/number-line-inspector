@@ -50,5 +50,19 @@ Then, before the first commit, I added these to `.gitignore`:
     .gradle
     build.gradle
 
+## Install PsiViewer plugin
+
+The inspector is going to work by examining the abstract syntax tree
+that represents a Java program.  IDEA uses a system called [Program
+Structure Interface (PSI)](https://www.jetbrains.org/intellij/sdk/docs/basics/architectural_overview/psi.html)
+to represent the code you're working on.  This is what the plugin
+will need to look at.
+
+There's a plugin for IDEA called [PsiViewer](https://plugins.jetbrains.com/plugin/227-psiviewer) 
+that will display the PSI for the code you're workin on.  It's super 
+helpful for figuring out what things the code will need to look at.
+
+After you install the plugin, there's a button on the right edge of the editing pane
+that turns on the viewer.
 
 
