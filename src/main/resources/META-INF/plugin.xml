@@ -1,11 +1,11 @@
 <idea-plugin>
     <id>org.example.number-line-inspector</id>
-    <name>Plugin display name here</name>
-    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+    <name>Number line inspector</name>
+    <vendor url="https://github.com/bwbeach/number-line-inspector">GitHub Project: Number Line Inspector</vendor>
 
     <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
+    This plugin follows my weird coding style of never using &gt; in
+    code, and offers to refactor to convert to &lt;.
     ]]></description>
 
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
