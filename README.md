@@ -123,13 +123,69 @@ by right-clicking on the project in the Gradle pane in IDEA:
 ![pop-up menu from right-clicking on Gradle project in Gradle pane,
 with the "Reload Gradle Project" highlighted](images/reload-gradle.png)
 
+## Write the inspection
 
+Once all that was done, writing the inspection was pretty straightforward.
+The [tutorial](https://www.jetbrains.org/intellij/sdk/docs/tutorials/code_inspections.html) has the steps.
 
+The core of the inspection looks like this:
+
+```java
+    @Override
+    public @NotNull PsiElementVisitor buildVisitor(@NotNull ProblemsHolder holder, boolean isOnTheFly) {
+        return new JavaElementVisitor() {
+            @Override
+            public void visitBinaryExpression(PsiBinaryExpression expression) {
+                super.visitBinaryExpression(expression);
+                if (expression.getOperationTokenType() == JavaTokenType.GT) {
+                    holder.registerProblem( expression, "Not in number line order");
+                }
+            }
+        };
+    }
+```
+
+The one place I got stuck was when the plugin wouldn't load because I had a '<'
+character in the plugin description in the XML.  That took a while to track down.
+
+## Adding a quick fix
+
+An inspection tool can also offer a "quick fix".  That code is also based on
+the tutorial.  The stragegy is to create a new expression by parsing a code
+fragment, and then replace the operands with the operation from the original
+expression.
+
+```java
+       @Override
+        public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+            PsiBinaryExpression binaryExpression = (PsiBinaryExpression) descriptor.getPsiElement();
+            PsiExpression left = binaryExpression.getLOperand();
+            PsiExpression right = binaryExpression.getROperand();
+            if (right == null) {
+                return;
+            }
+
+            PsiElementFactory factory = JavaPsiFacade.getInstance(project).getElementFactory();
+            PsiBinaryExpression updatedExpression =
+                    (PsiBinaryExpression) factory.createExpressionFromText("a < b", null);
+            updatedExpression.getLOperand().replace(right);
+            PsiExpression updatedRight = updatedExpression.getROperand();
+            if (updatedRight != null) {  // will never be null, but this avoids a warning
+                updatedRight.replace(left);
+            }
+
+            binaryExpression.replace(updatedExpression);
+        }
+```
  
-## Upcoming links
+## Other links
 
-https://www.jetbrains.org/intellij/sdk/docs/tutorials/code_inspections.html
-https://www.jetbrains.org/intellij/sdk/docs/basics/psi_cookbook.html
-https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/running_and_debugging_a_plugin.html
-https://www.jetbrains.org/intellij/sdk/docs/basics/ide_development_instance.html
-https://github.com/JetBrains/intellij-sdk-docs/tree/master/code_samples/comparing_references_inspection
+Jetbrains:
+
+ - [PSI Cookbook](https://www.jetbrains.org/intellij/sdk/docs/basics/psi_cookbook.html)
+ - [Running and Debugging a Plugin](https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/running_and_debugging_a_plugin.html)
+ - [IDE Development Instance](https://www.jetbrains.org/intellij/sdk/docs/basics/ide_development_instance.html)
+ 
+Github:
+ 
+ - [Comparing references inspection](https://github.com/JetBrains/intellij-sdk-docs/tree/master/code_samples/comparing_references_inspection) 
