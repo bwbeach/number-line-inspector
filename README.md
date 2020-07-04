@@ -65,4 +65,65 @@ helpful for figuring out what things the code will need to look at.
 After you install the plugin, there's a button on the right edge of the editing pane
 that turns on the viewer.
 
+To check out the viewer, I tried some sample code that has the pattern
+we'll be looking for:
 
+```java
+    public double fractionToPercentage(double f) {
+        if (f > 1.0) {
+            throw new RuntimeException("too big");
+        }
+        return f * 100.0;
+    }
+```
+
+The PsiViewer shows the node that we'll be looking for is a PsiBinaryExpression
+with an `operationTokenType` of `GT`:
+
+![Screen shot showing PsiViewer with a `PsiBinaryElement` 
+selected in the tree pane, and the details pane showing the
+`operationTokenType` of the node](images/psi-viewer.png)
+
+## Getting access to the PSI library for Java
+
+This was the step where I felt like I was pounding my head against the
+wall.  Until I found the 
+[doc page](https://blog.jetbrains.com/platform/2019/06/java-functionality-extracted-as-a-plugin)
+with the answer.  It turns out that
+the PSI classes for Java are part of a plugin to IDEA, and to get 
+access to them, you have to declare the dependency in two places. And
+then you have to refresh the project so it sees the dependecy.
+
+As that doc says, the three things you need to do are:
+
+1. Add the run-time dependency to the plug in, in the `plugin.xml` file.
+2. Add the develop-time dependency to the `idea` plugin in gradle.
+3. Re-import the gradle project into IDEA.
+
+The entry in `plugin.xml` looks like this:
+
+```xml
+<depends>com.intellij.java</depends>
+```
+
+The `plugins 'java'` gets added to `build.gradle` here:
+
+```groovy
+intellij {
+    version '2020.1.2'
+    plugins 'java'
+}
+```
+
+And the third step is to re-import the Gradle project by right-clicking
+on the project in the Gradle pane in IDEA:
+
+![pop-up menu from right-clicking on Gradle project in Gradle pane,
+with the "Reload Gradle Project" highlighted](images/reload-gradle.png)
+
+
+
+ 
+## Upcoming links
+
+https://www.jetbrains.com/help/idea/work-with-gradle-projects.html#gradle_refresh_project
