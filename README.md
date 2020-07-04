@@ -115,8 +115,9 @@ intellij {
 }
 ```
 
-And the third step is to re-import the Gradle project by right-clicking
-on the project in the Gradle pane in IDEA:
+And the third step is to 
+[re-import the Gradle project](https://www.jetbrains.com/help/idea/work-with-gradle-projects.html#gradle_refresh_project)
+by right-clicking on the project in the Gradle pane in IDEA:
 
 ![pop-up menu from right-clicking on Gradle project in Gradle pane,
 with the "Reload Gradle Project" highlighted](images/reload-gradle.png)
@@ -126,4 +127,4 @@ with the "Reload Gradle Project" highlighted](images/reload-gradle.png)
  
 ## Upcoming links
 
-https://www.jetbrains.com/help/idea/work-with-gradle-projects.html#gradle_refresh_project
+https://www.jetbrains.org/intellij/sdk/docs/basics/psi_cookbook.html
